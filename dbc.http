@@ -1,0 +1,20 @@
+### GET
+GET http://localhost:8083/ HTTP/1.1
+### GET
+GET http://localhost:8083/add HTTP/1.1
+### GET
+GET http://localhost:8083/users/login HTTP/1.1
+    ?user_id=18487315405
+    &user_code=123456
+
+### GET
+GET http://localhost:8083/users/ HTTP/1.1
+
+### POST
+POST http://localhost:8083/reg HTTP/1.1
+content-type: application/json
+
+{
+    "user_id": "18487315405",
+    "user_code": "123456"
+}
