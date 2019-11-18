@@ -1,23 +1,32 @@
+@host = http://localhost:8083
+
+
+
+
 //测试，获取所有用户信息
 ### GET
-GET http://localhost:8083/ HTTP/1.1
+GET {{host}}/ HTTP/1.1
 
 //注册
 ### GET
-GET http://localhost:8083/reg HTTP/1.1
+GET {{host}}/users/reg HTTP/1.1
+    ?user_phone=18487315405
+    &user_code=12345
+    &user_name=沐雙惜
+    &user_sex=男
 
 //登录
 ### GET
-GET http://localhost:8083/users/login HTTP/1.1
-    ?user_id=18487315405
+GET {{host}}/users/login HTTP/1.1
+    ?user_phone=18487315405
     &user_code=123456
 
 
 ### POST
-POST http://localhost:8083/reg HTTP/1.1
+POST {{host}}/reg HTTP/1.1
 content-type: application/json
 
 {
-    "user_id": "18487315405",
+    "user_phone": "18487315405",
     "user_code": "123456"
 }
