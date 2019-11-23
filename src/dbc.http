@@ -10,7 +10,7 @@ GET {{host}}/ HTTP/1.1
 //注册
 ### GET
 GET {{host}}/users/reg HTTP/1.1
-    ?user_phone=18487315405
+    ?user_id=18487315406
     &user_code=12345
     &user_name=沐雙惜
     &user_sex=男
@@ -18,15 +18,16 @@ GET {{host}}/users/reg HTTP/1.1
 //登录
 ### GET
 GET {{host}}/users/login HTTP/1.1
-    ?user_phone=18487315405
-    &user_code=123456
-
+    ?user_id=18487315405
+    &user_code=12345
 
 ### POST
-POST {{host}}/reg HTTP/1.1
+POST {{host}}/users/update HTTP/1.1
 content-type: application/json
 
 {
-    "user_phone": "18487315405",
-    "user_code": "123456"
+    "user_id": "18487315405",
+     "user_code": "12345",
+     "user_name": "沐雙惜",
+      "user_sex": "女"
 }

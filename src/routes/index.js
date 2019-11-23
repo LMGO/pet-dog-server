@@ -3,11 +3,6 @@ var router = express.Router();
 var userSQL = require('../db/usersql');
 const pool = require('../db/db'); 
 
-   
-router.post('/hhh',function(req,res,feilds){
-    res.writeHead(200,{"Content-Type":"test/json"})
-    
-});
 
 router.get('/', function (req, res, fields) {
   // var sql = 'SELECT * from user';

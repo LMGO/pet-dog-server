@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var multer=require('multer');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -11,14 +12,37 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 //设置跨域访问
+// app.all('*', function(req, res, next) {
+//      res.header("Access-Control-Allow-Origin", "*");
+//      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//      res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+//      res.header("X-Powered-By",' 3.2.1');
+//      res.header("Content-Type", "application/json;charset=utf-8");
+//      res.header("Content-Type", "multipart/form-data");
+//      res.header("Content-Type", "application/x-www-form-urlencoded");
+//   if (req.method == 'OPTIONS') {
+//     res.send(200); //让options请求快速返回
+//   }
+//   else {
+//     next();
+//   }
+//   });
 app.all('*', function(req, res, next) {
-     res.header("Access-Control-Allow-Origin", "*");
-     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-     res.header("X-Powered-By",' 3.2.1');
-     res.header("Content-Type", "application/json;charset=utf-8");
-     next();
-  });
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+  res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+  res.header("Content-Type", "multipart/form-data");
+  res.header("Content-Type", "application/x-www-form-urlencoded");
+  res.header("X-Powered-By", ' 3.2.1')
+      //这段仅仅为了方便返回json而已
+  res.header("Content-Type", "application/json;charset=utf-8");
+  if(req.method == 'OPTIONS') {
+      //让options请求快速返回
+      res.sendStatus(200); 
+  } else { 
+      next(); 
+  }
+});
    
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -35,8 +59,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-//静态资源配置
-app.use('/static',express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
+// app.use(multer({dest:'src/public/images/ue/'}).array('image'));
+// app.use('/static',express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
