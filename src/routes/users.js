@@ -14,6 +14,7 @@ const pool = require('../db/db');
 //注册操作
 router.get('/reg', async function (req, res, fields) {
   let user_id = req.query.user_id;
+  console.log(req.query)
   let user_code = req.query.user_code;
   let user_sex=req.query.user_sex;
   let user_name=req.query.user_name;
@@ -85,7 +86,7 @@ router.get('/login', async function (req, res, fields) {
   let user_code = req.query.user_code;
   //从连接池获取连接
   // var sql = "select * from user where user_id = '"+user_id+"' and user_code = '"+user_code+"'";
-  await pool.getConnection( function (err, conn) {
+  await pool.getConnection( function (err, conn){
     if (err) {
       conn.release();
       res.send(JSON.stringify({
@@ -128,13 +129,14 @@ router.get('/login', async function (req, res, fields) {
   });
 });
 
-//更改个人基本信息（密码，昵称，性别）
+//更改个人基本信息（密码，昵称，性别,签名）
 router.post('/update',function(req, res, fields){
   let user_id = req.body.user_id;
   let user_code = req.body.user_code;
   let user_name = req.body.user_name;
   let user_sex = req.body.user_sex;
-  pool.getConnection(function(err,conn){
+  let user_sign = req.body.user_sign
+  pool.getConnection( async function(err,conn){
       if (err) {
         conn.release();
         res.send(JSON.stringify({
@@ -145,7 +147,7 @@ router.post('/update',function(req, res, fields){
           data: null
         }));
       }
-      conn.query(userSQL.updateUser,[user_code, user_name, user_sex, user_id],function (err, vals, fields){
+      conn.query(userSQL.updateUser,[user_name, user_code, user_sign, user_sex,user_id],function (err, vals, fields){
         console.log(vals.changedRows)
         if (err) {
           throw err;
@@ -155,7 +157,6 @@ router.post('/update',function(req, res, fields){
              res.send(JSON.stringify({
                code: '0x000000000',
                status: 1,
-               remark: '更新用户信息',
                message: '更新用户信息成功'
              }));
           }
@@ -246,7 +247,8 @@ router.post('/updateUserhead',upload.single('file'), async (req,res)=>{
                    code: '0x000000000',
                    status: 1,
                    remark: '更新用户头像',
-                   message: '更新用户头像成功'
+                   message: '更新用户头像成功',
+                   data:user_head
                  }));
               }
               else {//数据库无变化
