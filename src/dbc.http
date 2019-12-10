@@ -10,9 +10,9 @@ GET {{host}}/ HTTP/1.1
 //注册
 ### GET
 GET {{host}}/users/reg HTTP/1.1
-    ?user_id=18487315406
+    ?user_id=18487315400
     &user_code=12345
-    &user_name=沐雙惜
+    &user_name=沐雙
     &user_sex=男
 
 //登录
@@ -21,13 +21,32 @@ GET {{host}}/users/login HTTP/1.1
     ?user_id=18487315405
     &user_code=12345
 
+//修改用户信息
 ### POST
 POST {{host}}/users/update HTTP/1.1
 content-type: application/json
 
 {
-    "user_id": "18487315405",
-     "user_code": "12345",
-     "user_name": "沐雙惜",
-      "user_sex": "女"
+    "user_id": "18487315405",//不可更改
+    "user_code": "12345",
+    "user_name": "沐雙惜",
+    "user_sex": "女"
 }
+
+//发帖
+### POST
+POST {{host}}/post/newpost HTTP/1.1
+content-type: application/json
+
+{
+    "posting_id": "114142",
+    "user_id": "18487315405",
+    "posting_type": "哈士奇",
+    "posting_content": "哈哈哈哈哈，好可爱的哈士奇",
+    "posting_time": "2018-11-27-21:12:50"
+}
+
+//获取mypost
+### GET
+GET {{host}}/post/mypost HTTP/1.1
+    ?user_id=18487315405
