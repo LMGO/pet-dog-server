@@ -14,7 +14,7 @@ router.post('/newpost', async (req,res)=>{
       console.log(req.body)
       let posting_id = req.body.posting_id
       let user_id = req.body.user_id
-      let posting_type = req.body.posting_type
+      let pet_id = req.body.pet_id
       let posting_content = req.body.posting_content
       let posting_time = req.body.posting_time
       console.log(req.body.user_id)
@@ -27,7 +27,7 @@ router.post('/newpost', async (req,res)=>{
               }));
             }
                //插入newpost
-            conn.query(postSQL.insert,[posting_id,user_id,posting_type,posting_content,posting_time],async (err, vals)=>{
+            conn.query(postSQL.insert,[posting_id,user_id,pet_id,posting_content,posting_time],async (err, vals)=>{
               if (err) {
                 conn.release();
                 res.send(JSON.stringify({
