@@ -213,7 +213,7 @@ router.post('/updateUserhead',upload.single('file'), async (req,res)=>{
     if (avatar) {
       // var file = req.files;
 	    var oldPath = "src/public/images/ue/"+avatar.filename;
-   	 var newPath = "src/public/images/ue/"+avatar.filename +Date.now()+req.body.user_id+".jpg";
+   	 var newPath = "src/public/images/ue/"+avatar.filename+Date.now()+req.body.user_id+".jpg";
      let headdest = "/images/ue/"+avatar.filename+Date.now()+req.body.user_id+".jpg";
       let user_id=req.body.user_id
       let user_head=headdest

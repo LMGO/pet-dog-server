@@ -84,10 +84,11 @@ router.post('/postingpic', async (req,res)=>{
       let resto;
       req.files.forEach(function(i){
         var oldPath = "src/public/images/postpic/"+i.filename;
-        var newPath = "src/public/images/postpic/"+i.filename +Date.now()+".jpg";
-        let dest = "/images/postpic/"+i.filename+Date.now()+posting_id+".jpg";
+        var newPath = "src/public/images/postpic/"+i.filename+Date.now()+posting_id+".jpg";
+        // let dest = "/images/postpic/"+i.filename+Date.now()+posting_id+".jpg";
+        let dest = "/images/postpic/"+i.filename+Date.now()+posting_id+".jpg";//实际存的
         
-        let posting_pic=dest
+        let posting_pic = dest
         console.log(dest)
         fs.rename(oldPath,newPath,(err,data)=>{
             if(err){
@@ -152,10 +153,10 @@ router.post('/postingpic', async (req,res)=>{
 
 })
 
-//获取我发布的帖子
-router.get('/mypost',async(req,res)=>{
-    console.log(req.query.user_id)
-    let user_id = req.query.user_id
+//删除我发布的帖子
+router.get('/delemypost',async(req,res)=>{
+    console.log(req.query.posting_id)
+    let posting_id = req.query.posting_id
     pool.getConnection(async (err,conn)=>{
         if (err) {
           conn.release();
@@ -166,23 +167,32 @@ router.get('/mypost',async(req,res)=>{
               throw err;
         }else{   
         //查找mypost
-        conn.query(postSQL.getpostById,[user_id],async (qerr, vals)=>{
+        conn.query(postSQL.delebypostId,[posting_id],async (qerr, vals)=>{
+          console.log(vals)
+          console.log(vals. affectedRows)
           if (qerr) {
             conn.release();
             res.send(JSON.stringify({
                 status: 1,
-                message: '获取失败'
+                message: '删除失败'
             }));
             throw err;
            }
           else  {
-            conn.release();
-            res.send(JSON.stringify({
-                status: 2,
-                message: '获取成功',
-                mypostlist:vals
-            }));
+            if(vals. affectedRows!=0){
+              conn.release();
+              res.send(JSON.stringify({
+                  status: 2,
+                  message: '删除成功'
+              }));
+            }else{
+              conn.release();
+              res.send(JSON.stringify({
+                  status: 3,
+                  message: '删除失败，帖子不存在'
+              }));
             }
+          }
         })
       }
 
