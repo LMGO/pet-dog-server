@@ -14,6 +14,7 @@ const pool = require('../db/db');
 //注册操作
 router.get('/reg', async function (req, res, fields) {
   let user_id = req.query.user_id;
+  console.log(req.query.user_id)
   console.log(req.query)
   let user_code = req.query.user_code;
   let user_sex=req.query.user_sex;
